@@ -24,7 +24,7 @@
 @else@*/
 
 var FlushedButton = (() => {
-     const config = {"info":{"name":"Flushed Button","authors":[{"name":"Proto","discord_id":"617130693511741460","github_username":"ProtoGrace","twitter_username":"ProtoGrace"}],"version":"0.0.1","description":"Button that sends flushed emoji."},"changelog":[{"title":"Fixed","type":"fixed","items":["Created."]}],"main":"index.js"};
+     const config = {"info":{"name":"Flushed Button","authors":[{"name":"Proto","discord_id":"617130693511741460","github_username":"ProtoGrace","twitter_username":"ProtoGrace"}],"version":"0.0.2","description":"Button that sends flushed emoji.","github":"https://github.com/ProtoGrace/FlushedButton","github_raw":"https://raw.githubusercontent.com/ProtoGrace/FlushedButton/master/flushedbutton.plugin.js"},"changelog":[{"title":"Modified","type":"fixed","items":["Made button 1.5 pixels less wide."]}],"main":"index.js"};
      const minDIVersion = '1.12';
     if (!window.DiscordInternals || !window.DiscordInternals.version ||
         window.DiscordInternals.versionCompare(window.DiscordInternals.version, minDIVersion) < 0) {
@@ -78,7 +78,7 @@ var FlushedButton = (() => {
     } : (([Plugin, Api]) => {
         const plugin = (Plugin, Api) => {
     const css = `.send-button {
-	width: 25px;
+	width: 23.5px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -129,14 +129,11 @@ var FlushedButton = (() => {
             button.on("click", () => {
                 const textareaWrapper = form.querySelector(DiscordSelectors.Textarea.textArea);
                 if (!textareaWrapper) return Logger.warn("Could not find textarea wrapper");
-                // textareaWrapper.children[0].textContent = "https://i.imgur.com/uFfJbzD.png";
 
                 const textarea = textareaWrapper.children && textareaWrapper.children[0];
                 if (!textarea) return Logger.warn("Could not find textarea");
 
-               // textarea.dispatchEvent(press);
                 const MessageActions = WebpackModules.findByUniqueProperties(['jumpToMessage', '_sendMessage']);
-                //const currentChannel = getOwnerInstance($('.chat')[0], {include: ["Channel"]}).state.channel.id;
                 var currentChannel = window.location.pathname.split('/').pop();
                 MessageActions.sendMessage(currentChannel, {content: 'https://i.imgur.com/uFfJbzD.png'});
             });
