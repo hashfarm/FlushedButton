@@ -1,4 +1,4 @@
-//META{"name":"FlushedButton"}*//
+//META{"name":"FlushedButton","displayName":"Flushed Button","website":"https://github.com/ProtoGrace/FlushedButton/blob/master/flushedbutton.plugin.js","source":"https://raw.githubusercontent.com/ProtoGrace/FlushedButton/master/flushedbutton.plugin.js"}*//
 /*@cc_on
 @if (@_jscript)
 	
