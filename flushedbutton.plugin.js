@@ -110,7 +110,8 @@ var FlushedButton = (() => {
             this.defaultSettings = {};
             this.defaultSettings.imageurl = "https://i.imgur.com/uFfJbzD.png";
         }
-
+	
+	// Settings Panel
         getSettingsPanel() {
             return Settings.SettingPanel.build(this.saveSettings.bind(this), 
                 new Settings.SettingGroup("Flushed Button Settings").append(
