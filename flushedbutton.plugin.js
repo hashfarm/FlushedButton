@@ -24,7 +24,7 @@
 @else@*/
 
 var FlushedButton = (() => {
-     const config = {"info":{"name":"Flushed Button","authors":[{"name":"Proto","discord_id":"617130693511741460","github_username":"ProtoGrace","twitter_username":"ProtoGrace"}],"version":"0.0.2","description":"Button that sends flushed emoji.","github":"https://github.com/ProtoGrace/FlushedButton","github_raw":"https://raw.githubusercontent.com/ProtoGrace/FlushedButton/master/flushedbutton.plugin.js"},"changelog":[{"title":"Modified","type":"fixed","items":["Made button 1.5 pixels less wide."]}],"main":"index.js"};
+     const config = {"info":{"name":"Flushed Button","authors":[{"name":"Proto","discord_id":"617130693511741460","github_username":"ProtoGrace","twitter_username":"ProtoGrace"}],"version":"0.0.3","description":"Button that sends flushed emoji.","github":"https://github.com/ProtoGrace/FlushedButton","github_raw":"https://raw.githubusercontent.com/ProtoGrace/FlushedButton/master/flushedbutton.plugin.js"},"changelog":[{"title":"Modified","type":"fixed","items":["Added Image Url Settings."]}],"main":"index.js"};
      const minDIVersion = '1.12';
     if (!window.DiscordInternals || !window.DiscordInternals.version ||
         window.DiscordInternals.versionCompare(window.DiscordInternals.version, minDIVersion) < 0) {
@@ -98,15 +98,27 @@ var FlushedButton = (() => {
 	opacity: 1;
 	transform:scale(1.1);
 }`;
-    const buttonHTML = `<div class="send-button">
-    <img src="https://i.imgur.com/uFfJbzD.png">
-</div>`;
+    
 
     const press = new KeyboardEvent("keydown", {key: "Enter", code: "Enter", which: 13, keyCode: 13, bubbles: true});
     Object.defineProperties(press, {keyCode: {value: 13}, which: {value: 13}});
 
-    const {DiscordSelectors, PluginUtilities, DOMTools, Logger} = Api;
-    return class SendButton extends Plugin {
+    const {DiscordSelectors, PluginUtilities, DOMTools, Logger, Settings} = Api;
+    return class FlushedButton extends Plugin {
+        constructor() {
+            super();
+            this.defaultSettings = {};
+            this.defaultSettings.imageurl = "https://i.imgur.com/uFfJbzD.png";
+        }
+
+        getSettingsPanel() {
+            return Settings.SettingPanel.build(this.saveSettings.bind(this), 
+                new Settings.SettingGroup("Flushed Button Settings").append(
+                    new Settings.Textbox("Textbox", "Image URL to send", this.settings.imageurl, (e) => {this.settings.imageurl = e;}), (e) => {this.settings.option = e;})
+            );
+        }
+
+
         onStart() {
             PluginUtilities.addStyle(this.getName(), css);
             if (document.querySelector("form")) this.addButton(document.querySelector("form"));
@@ -121,6 +133,9 @@ var FlushedButton = (() => {
 
 
         addButton(elem) {
+            const buttonHTML = `<div class="send-button">
+                <img src="`+ this.settings.imageurl + ` ">
+            </div>`;
             if (elem.querySelector(".send-button")) return;
             const button = DOMTools.createElement(buttonHTML);
             const form = elem.querySelector(DiscordSelectors.Textarea.inner);
@@ -135,7 +150,7 @@ var FlushedButton = (() => {
 
                 const MessageActions = WebpackModules.findByUniqueProperties(['jumpToMessage', '_sendMessage']);
                 var currentChannel = window.location.pathname.split('/').pop();
-                MessageActions.sendMessage(currentChannel, {content: 'https://i.imgur.com/uFfJbzD.png'});
+                MessageActions.sendMessage(currentChannel, {content: this.settings.imageurl});
             });
         }
 
