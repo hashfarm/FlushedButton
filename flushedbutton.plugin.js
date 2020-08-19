@@ -25,23 +25,6 @@
 
 var FlushedButton = (() => {
      const config = {"info":{"name":"Flushed Button","authors":[{"name":"Proto","discord_id":"617130693511741460","github_username":"ProtoGrace","twitter_username":"ProtoGrace"}],"version":"0.0.3","description":"Button that sends flushed emoji.","github":"https://github.com/ProtoGrace/FlushedButton","github_raw":"https://raw.githubusercontent.com/ProtoGrace/FlushedButton/master/flushedbutton.plugin.js"},"changelog":[{"title":"Modified","type":"fixed","items":["Added Image Url Settings."]}],"main":"index.js"};
-     const minDIVersion = '1.12';
-    if (!window.DiscordInternals || !window.DiscordInternals.version ||
-        window.DiscordInternals.versionCompare(window.DiscordInternals.version, minDIVersion) < 0) {
-        const message = `Lib Discord Internals v${minDIVersion} or higher not found! Please install or upgrade that utility plugin. See install instructions here https://goo.gl/kQ7UMV`;
-        Api.log(message, 'warn');
-        return (class EmptyStubPlugin extends Plugin {
-            onStart() {
-                Api.log(message, 'warn');
-                alert(message);
-                return false;
-            }
-
-            onStop() {
-                return true;
-            }
-        });
-    }
 
     const {WebpackModules} = window.DiscordInternals;
 
